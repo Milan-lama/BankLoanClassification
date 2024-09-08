@@ -19,8 +19,8 @@ def gender(value, data):
             return data + dist[key]
 
 def prediction(data):
-    scaler = joblib.load('scaler.save')
-    with open('loan_model.pkl', 'rb') as file:
+    scaler = joblib.load('F:\InternshipTask\BankLoanClassification\scaler.save')
+    with open('F:\InternshipTask\BankLoanClassification\loan_model.pkl', 'rb') as file:
         loaded_model = pickle.load(file)
     input_data = np.array(data)
     input_data_reshaped = input_data.reshape(1, -1)
@@ -139,7 +139,7 @@ if gretting == "hi" or gretting == "hello":
                     gender_data = gender(value, [])
                     data += gender_data
                     i = i + 1
-        print("chatbot: all input is recieved /n Prediction upon you data is :")
+        print("chatbot: all input is recieved \n Prediction upon you data is :")
         prediction = prediction(data)
         print(prediction+'!')
         print("chatbot: thank you for using this service")
