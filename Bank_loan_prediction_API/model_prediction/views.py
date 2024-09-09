@@ -1,25 +1,48 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 import numpy as np
-from .seralizer import CustomerSeralizer
-# Create your views here.
-
+from .serializers import CustomerSerializer  # Corrected import
 
 class PredictionView(APIView):
-    inputs = ['Age', 'Experience', 'Income', 'ZIP Code', 'Family',
-       'CCAvg', 'Education', 'Mortgage', 'Home Ownership',
-       'Securities Account', 'CD Account', 'Online', 'CreditCard', 'Gender']
-    def post(self,request):
-        serializer = CustomerSeralizer(data = request.data,many=True)
-        # queryset = Customer.objects.all()
-        # input = np.empty(len(self.inputs))
+    inputs = ['age', 'experience', 'income', 'zip_code', 'family',
+              'ccavg', 'education', 'mortgage', 'home_ownership',
+              'securities_account', 'cd_account', 'online', 'credit_card', 'gender']
+    def gender(self , value, data):
+        dist = {
+        'female': [1, 0, 0],
+        'male': [0, 1, 0],
+        'others': [0, 0, 1]
+        }
+        for key in dist:
+            if key == value:
+                return data + dist[key]
+    def post(self, request):
+        serializer = CustomerSerializer(data=request.data)  # Corrected many=True
         if serializer.is_valid():
             serializer.save()
             print(serializer.data)
-        # for value in self.inputs:
-        #     input_values.append(data.get(value))
-        # input_array = np.array(input_values)
-        # type(input_array[0])
-        return Response('done')
+            # return Response({'message': 'Data saved successfully!'}, status=status.HTTP_201_CREATED)
+        input_values = []
         
+        for key,value in serializer.data.items():
+            if key == 'home_ownership':
+                if value == 'Rent':
+                    input_values.append(0)
+                elif value == 'Home Owner':
+                    input_values.append(1)
+                else:
+                    input_values.append(2)
+            elif key == 'gender':
+                gender_data = self.gender(value,[])
+                input_values=input_values[0:len(self.inputs)-3] + gender_data
+            else:
+                input_values.append(value)
+        input_array = np.array(input_values)
+        type(input_array[0])
+        print(input_array)
+        return Response('done')
+
+        # Assuming further processing with NumPy might be added later
+

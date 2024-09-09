@@ -7,7 +7,7 @@ class Customer(models.Model):
     experience = models.IntegerField()
     income = models.FloatField()
     family = models.IntegerField()
-    cc_avg = models.FloatField()  # Assuming 'CCAvg' refers to credit card average spending
+    ccavg = models.FloatField()  # Assuming 'CCAvg' refers to credit card average spending
     mortgage = models.FloatField()
     
     # Categorical fields
@@ -16,10 +16,10 @@ class Customer(models.Model):
     education = models.CharField(max_length=20)  # Adjust length as needed
     
     # Boolean fields
-    securities_account = models.BooleanField(default=False)
-    cd_account = models.BooleanField(default=False)
-    online = models.BooleanField(default=False)
-    credit_card = models.BooleanField(default=False)
+    securities_account = models.IntegerField()
+    cd_account = models.IntegerField()
+    online = models.IntegerField()
+    credit_card = models.IntegerField()
     
     # Gender
     gender = models.CharField(max_length=10)  # Adjust length as needed
