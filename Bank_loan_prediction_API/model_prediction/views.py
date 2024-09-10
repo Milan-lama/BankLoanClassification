@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import numpy as np
 from .serializers import CustomerSerializer  # Corrected import
-
+from .my_model import prediction
 class PredictionView(APIView):
     inputs = ['age', 'experience', 'income', 'zip_code', 'family',
               'ccavg', 'education', 'mortgage', 'home_ownership',
@@ -36,12 +36,12 @@ class PredictionView(APIView):
                     input_values.append(2)
             elif key == 'gender':
                 gender_data = self.gender(value,[])
-                input_values=input_values[0:len(self.inputs)-3] + gender_data
+                input_values=input_values[0:len(self.inputs)] + gender_data
             else:
                 input_values.append(value)
-        input_array = np.array(input_values)
-        type(input_array[0])
-        print(input_array)
+        print(input_values)
+        result = prediction(input_values[1:])
+        print(result)
         return Response('done')
 
         # Assuming further processing with NumPy might be added later

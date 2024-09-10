@@ -11,9 +11,9 @@ class Customer(models.Model):
     mortgage = models.FloatField()
     
     # Categorical fields
-    zip_code = models.CharField(max_length=10)  # Adjust length as needed
+    zip_code = models.IntegerField()  # Adjust length as needed
     home_ownership = models.CharField(max_length=20)  # Adjust length as needed
-    education = models.CharField(max_length=20)  # Adjust length as needed
+    education = models.IntegerField()  # Adjust length as needed
     
     # Boolean fields
     securities_account = models.IntegerField()
